@@ -1,0 +1,17 @@
+{
+  "name": "my-webapp",
+  "version": "0.0.1",
+  "description": "Website for my new app",
+  "main": "server.js",
+  "author": "Kaan Inan",
+  "license": "MIT",
+  "dependencies": {
+    "angular-recaptcha": "^3.0.4",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "fs": "0.0.1-security",
+    "jquery": "^3.1.1",
+    "mongoose": "^4.6.5"
+  }
+}
