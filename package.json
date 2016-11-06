@@ -9,9 +9,17 @@
     "angular-recaptcha": "^3.0.4",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.2",
     "fs": "0.0.1-security",
     "jquery": "^3.1.1",
-    "mongoose": "^4.6.5"
+    "mongoose": "^4.6.5",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.76.0",
+    "unirest": "^0.5.1"
   }
 }

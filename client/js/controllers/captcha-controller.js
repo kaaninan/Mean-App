@@ -1,21 +1,24 @@
-var app2 = angular.module('testApp', ['vcRecaptcha']);
+var app = angular.module('forget', ['vcRecaptcha', 'ngResource']);
 
-app2.controller('testCtrl', function ($scope, vcRecaptchaService) {
+app.controller('forgetController', ['$scope', '$resource', function($scope, $resource, vcRecaptchaService, $http) {
+
+    var Captcha = $resource('/api/captcha');
+
     console.log("this is your app's controller");
     $scope.response = null;
     $scope.widgetId = null;
 
     $scope.model = {
-        key: '6Le13AoUAAAAAHgsf71tcD9cOjlZiHOPxqWowT1d'
+        key: '6Le13AoUAAAAANXjenfUkzziarYKxxtBAhPtzLD_'
     };
 
-    $scope.setResponse = function (response) {
+    $scope.setResponse = function(response) {
         console.info('Response available');
 
         $scope.response = response;
     };
 
-    $scope.setWidgetId = function (widgetId) {
+    $scope.setWidgetId = function(widgetId) {
         console.info('Created widget ID: %s', widgetId);
 
         $scope.widgetId = widgetId;
@@ -27,28 +30,23 @@ app2.controller('testCtrl', function ($scope, vcRecaptchaService) {
         vcRecaptchaService.reload($scope.widgetId);
 
         $scope.response = null;
-     };
+    };
 
-    $scope.submit = function () {
+    $scope.submit = function(response) {
+
         var valid;
 
-        /**
-         * SERVER SIDE VALIDATION
-         *
-         * You need to implement your server side validation here.
-         * Send the reCaptcha response to the server and use some of the server side APIs to validate it
-         * See https://developers.google.com/recaptcha/docs/verify
-         */
         console.log('sending the captcha response to the server', $scope.response);
 
-        if (valid) {
-            console.log('Success');
-        } else {
-            console.log('Failed validation');
+        var captcha = new Captcha();
+        captcha.response = $scope.response;
+        captcha.data2 = 'kaan';
+        captcha.$save(function(result) {
+            console.log("bitti");
+            console.log(result);
+        });
 
-            // In case of a failed validation you need to reload the captcha
-            // because each response can be checked just once
-            vcRecaptchaService.reload($scope.widgetId);
-        }
+        // Başarısız olursa -> //     vcRecaptchaService.reload($scope.widgetId);
     };
-});
+
+}]);
