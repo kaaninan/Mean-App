@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr" ng-app="app">
+
+<head>
+    <% include static/head %>
+    <link href="/css/login.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container ng-cloak" ng-controller="forgetController">
+        <form class="form-signin" ng-submit="submit()">
+            <a href="/">< Sisteme Giriş</a>
+            <h2 class="form-signin-heading">Şifremi Unuttum</h2>
+            <label for="inputUser" class="sr-only">Mail</label>
+            <input type="mail" ng-model="mail" class="form-control" placeholder="Mail" autofocus>
+            <br>
+            <div vc-recaptcha theme="'light'" key="'6Le13AoUAAAAAHgsf71tcD9cOjlZiHOPxqWowT1d'" on-create="setWidgetId(widgetId)" on-success="setResponse(response)" on-expire="cbExpiration()"></div>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Şifremi Sıfırla</button>
+            <br>
+            <div class="uyari"><img ng-src="/asset/uploading.gif" ng-show="isUpload" width="20px"></div>
+            <div class="uyari">{{ errorMsg }}</div>
+            <div class="bilgi">{{ info }}</div>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

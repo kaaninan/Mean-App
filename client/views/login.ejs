@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr" ng-app="app">
+
+<head>
+    <% include static/head %>
+    <link href="/css/login.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container ng-cloak" ng-controller="loginController">
+        <form class="form-signin" ng-submit="submit()">
+            <h2 class="form-signin-heading">Sisteme Giriş</h2>
+            <label for="inputUser" class="sr-only">Kullanıcı adı</label>
+            <input type="text" ng-model="user" class="form-control" placeholder="Kullanıcı Adı" autofocus>
+            <label for="inputPassword" class="sr-only">Şifre</label>
+            <input type="password" ng-model="pass" class="form-control" placeholder="Şifre">
+            <div class="forget"><a href="/forget">Şifremi Unuttum</a></div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş Yap</button>
+            <br>
+            <div class="uyari">{{ uyari }}</div>
+            <div class="bilgi">{{ bilgi }}</div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var cookieParser = require('cookie-parser')();
+var connect_ensure_login = require('connect-ensure-login')
 var meetupsController = require('./server/controllers/meetups-controller.js');
 var loginController = require('./server/controllers/login-controller.js');
 
@@ -28,12 +29,9 @@ passport.use(new Strategy(
             return cb(null, user);
         });
     }));
-
-
 passport.serializeUser(function(user, cb) {
     cb(null, user.id);
 });
-
 passport.deserializeUser(function(id, cb) {
     loginController.findById(id, function(err, user) {
         if (err) {
@@ -51,7 +49,7 @@ var view = __dirname + '/client/views';
 var css = __dirname + '/client/css';
 var js = __dirname + '/client/js';
 var asset = __dirname + '/client/asset';
-var recaptcha = __dirname + '/node_modules/angular-recaptcha/release/';
+var modules = __dirname + '/node_modules/';
 var port = process.env.PORT || 3000;
 
 
@@ -60,20 +58,18 @@ app.set('view engine', 'ejs');
 
 
 /* ----- Middlewares ----- */
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser);
 app.use(express_session({
-    secret: 'keyboard cat',
+    secret: 'awsomeSecret',
     resave: false,
     saveUninitialized: false
 }));
 app.use('/js', express.static(js));
 app.use('/css', express.static(css));
 app.use('/asset', express.static(asset));
-app.use('/recaptcha', express.static(recaptcha));
+app.use('/modules', express.static(modules));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api', api);
@@ -82,6 +78,7 @@ app.use('/api', api);
 /* ---------- Routes ---------- */
 
 app.get('/', function(req, res) {
+    if (req.user) res.redirect('/' + req.user.type);
     var title = "Sisteme Giriş";
     res.render('login', {
         title: title
@@ -96,15 +93,62 @@ app.get('/forget', function(req, res) {
 });
 
 
+app.get('/admin', connect_ensure_login.ensureLoggedIn('/'),
+    function(req, res) {
+        if (req.user.type == "admin") {
+            var title = "Yönetim Paneli";
+            res.render('admin/index', {
+                title: title,
+                username: req.user.displayName
+            });
+        } else {
+            res.redirect('/' + req.user.type);
+        }
+    });
 
+app.get('/ogretmen', connect_ensure_login.ensureLoggedIn('/'),
+    function(req, res) {
+        if (req.user.type == "ogretmen") {
+            var title = "Öğretmen Paneli";
+            res.render('ogretmen/index', {
+                title: title,
+                username: req.user.displayName
+            });
+        } else {
+            res.redirect('/' + req.user.type);
+        }
+    });
 
-app.get('/test', function(req, res) {
-    res.sendfile(__dirname + '/client/views/test.html');
-});
+app.get('/ogrenci', connect_ensure_login.ensureLoggedIn('/'),
+    function(req, res) {
+        if (req.user.type == "ogrenci") {
+            var title = "Öğrenci Paneli";
+            res.render('ogrenci/index', {
+                title: title,
+                username: req.user.displayName
+            });
+        } else {
+            res.redirect('/' + req.user.type);
+        }
+    });
+
 
 app.get('/kontrol', function(req, res) {
     res.sendfile(__dirname + '/client/views/kontrol.html');
 });
+
+app.get('/profile',
+    connect_ensure_login.ensureLoggedIn('/'),
+    function(req, res) {
+        res.sendfile(__dirname + '/client/views/kontrol.html');
+    });
+
+
+app.get('/logout',
+    function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
 
 
 
@@ -116,8 +160,11 @@ api.route('/login')
     .post(passport.authenticate('local', {
         failureRedirect: '/kontrol'
     }), function(req, res) {
-        console.log(req.user);
-        res.status(200).send({login: "true", user: req.user});
+        console.log("Giriş Yapıldı: " + req.user);
+        res.status(200).send({
+            login: "true",
+            user: req.user
+        });
     });
 
 
