@@ -3,5 +3,5 @@
 
 ## Mean web application
 
-Creator, Maintainer - Kaan İnan
-Maintainer - Ömer Yiğit Aker
+- Creator, Maintainer - Kaan İnan
+- Maintainer - Ömer Yiğit Aker
