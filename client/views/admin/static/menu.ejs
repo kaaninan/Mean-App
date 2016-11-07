@@ -1,0 +1,93 @@
+<aside class="main-sidebar" ng-controller="menuController">
+
+    <section class="sidebar">
+
+        <!-- search form -->
+        <form class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Arama...">
+                <span class="input-group-btn">
+              <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i></button>
+            </span>
+            </div>
+        </form>
+
+        <!-- Sidebar -->
+        <ul class="sidebar-menu">
+            <li class="header">MENU</li>
+
+            <!-- Öğretmen İşlemleri -->
+            <li class="treeview" ng-class="{'ogretmen_islemleri':'active'}[menuActive(call.Status)]">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Öğretmen İşlemleri</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+
+                <ul class="treeview-menu">
+                    <li class="active"><a href="/admin/ogretmen_islemleri"><i class="fa fa-circle-o"></i> Öğretmen Listesi</a></li>
+                </ul>
+            </li>
+
+            <!-- Öğrenci İşlemleri -->
+            <li class="treeview" ng-class="{'ogrenci_islemleri':'active'}[menuActive(call.Status)]">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Öğrenci İşlemleri</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    <!-- <span class="pull-right-container"><span class="label label-primary pull-right">4</span></span> -->
+                </a>
+
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Öğrenci İşlemleri</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Sınıf İşlemleri</a></li>
+                </ul>
+            </li>
+
+
+            <!-- Sınav İşlemleri -->
+            <li class="treeview" ng-class="{'sinav_islemleri':'active'}[menuActive(call.Status)]">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Sınav İşlemleri</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    <!-- <span class="pull-right-container"><span class="label label-primary pull-right">4</span></span> -->
+                </a>
+
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Sınav  Kategorileri</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Sınav Soruları</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Not Ortalamaları</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Sınav Ayarları</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Rubrik Ayarları</a></li>
+                </ul>
+            </li>
+
+
+            <!-- Veritabanı İşlemleri -->
+            <li class="treeview" ng-class="{'veritabani_islemleri':'active'}[menuActive(call.Status)]">
+                <a href="#">
+                    <i class="fa fa-files-o"></i>
+                    <span>Veritabanı İşlemleri</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    <!-- <span class="pull-right-container"><span class="label label-primary pull-right">4</span></span> -->
+                </a>
+
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Geri Yükleme</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> Yedekleme</a></li>
+                </ul>
+            </li>
+
+
+            <li class="header">KULLANICI</li>
+
+            <!-- Kullanıcı Ayarları -->
+            <li ng-class="{'kullanici_ayarlari':'active'}[menuActive(call.Status)]">
+                <a href="#">
+                    <i class="fa fa-th"></i> <span>Kullanıcı Ayarları</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</aside>

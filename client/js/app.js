@@ -1,1 +1,1 @@
-var app = angular.module('app', ['vcRecaptcha', 'ngResource', 'ngRoute']);
+var app = angular.module('app', ['vcRecaptcha', 'ngResource']);

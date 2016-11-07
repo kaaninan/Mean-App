@@ -58,7 +58,9 @@ app.set('view engine', 'ejs');
 
 
 /* ----- Middlewares ----- */
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser);
 app.use(express_session({
@@ -68,6 +70,7 @@ app.use(express_session({
 }));
 app.use('/js', express.static(js));
 app.use('/css', express.static(css));
+app.use('/views', express.static(view));
 app.use('/asset', express.static(asset));
 app.use('/modules', express.static(modules));
 app.use(passport.initialize());
@@ -76,6 +79,9 @@ app.use('/api', api);
 
 
 /* ---------- Routes ---------- */
+
+
+// --- Login & Forget Password ---
 
 app.get('/', function(req, res) {
     if (req.user) res.redirect('/' + req.user.type);
@@ -93,18 +99,39 @@ app.get('/forget', function(req, res) {
 });
 
 
+
+// --- Admin ---
+
 app.get('/admin', connect_ensure_login.ensureLoggedIn('/'),
     function(req, res) {
         if (req.user.type == "admin") {
             var title = "Yönetim Paneli";
             res.render('admin/index', {
                 title: title,
+                template: 'main',
                 username: req.user.displayName
             });
         } else {
             res.redirect('/' + req.user.type);
         }
     });
+
+app.get('/admin/ogretmen_islemleri', connect_ensure_login.ensureLoggedIn('/'),
+    function(req, res) {
+        if (req.user.type == "admin") {
+            var title = "Yönetim Paneli - Öğretmen İşlemleri";
+            res.render('admin/index', {
+                title: title,
+                template: 'ogretmen_listesi',
+                username: req.user.displayName
+            });
+        } else {
+            res.redirect('/' + req.user.type);
+        }
+    });
+
+
+
 
 app.get('/ogretmen', connect_ensure_login.ensureLoggedIn('/'),
     function(req, res) {
@@ -132,6 +159,14 @@ app.get('/ogrenci', connect_ensure_login.ensureLoggedIn('/'),
         }
     });
 
+
+
+
+app.get('/test', function(req, res) {
+    res.render('admin/ogretmen', {
+        title: "test",
+    });
+});
 
 app.get('/kontrol', function(req, res) {
     res.sendfile(__dirname + '/client/views/kontrol.html');
